@@ -174,9 +174,16 @@
   const SUPABASE_URL = 'https://jtqlkpiggmzvpcyjjhwd.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_klTPF2ZiLYzHqOsehCIQlA__wMG_176';
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
   const cardEl = document.getElementById('card');
+
+  let supabase;
+  try {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } catch (e) {
+    cardEl.innerHTML = `
+      <p class="state-message">Could not connect. Please refresh the page.</p>
+    `;
+  }
 
   const LINK_ICONS = {
     cashApp: '$',
@@ -274,6 +281,8 @@
   }
 
   async function loadProfile() {
+    if (!supabase) return; // CDN failed to load; message already shown above.
+
     const params = new URLSearchParams(window.location.search);
     const username = params.get('u')?.trim();
 
@@ -282,18 +291,24 @@
       return;
     }
 
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('username, display_name, photo_url, payment_links')
-      .ilike('username', username)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('username, display_name, photo_url, payment_links')
+        .ilike('username', username)
+        .single();
 
-    if (error || !data) {
-      renderNotFound();
-      return;
+      if (error || !data) {
+        renderNotFound();
+        return;
+      }
+
+      renderProfile(data);
+    } catch (e) {
+      cardEl.innerHTML = `
+        <p class="state-message">Something went wrong loading this profile. Please refresh.</p>
+      `;
     }
-
-    renderProfile(data);
   }
 
   loadProfile();
