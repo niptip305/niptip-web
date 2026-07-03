@@ -176,9 +176,9 @@
 
   const cardEl = document.getElementById('card');
 
-  let supabase;
+  let supabaseClient;
   try {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   } catch (e) {
     cardEl.innerHTML = `
       <p class="state-message">Could not connect. Please refresh the page.</p>
@@ -223,10 +223,6 @@
     }
   }
 
-  // Renders one entry from the `payment_links` jsonb array. Each entry is
-  // expected to look like: { "type": "cashApp", "label": "Cash App", "value": "$joey" }
-  // "type" picks the icon/href-building rules above; "label" is optional
-  // display text (falls back to LINK_LABELS[type], then "Link").
   function linkItemHtml(entry) {
     if (!entry || !entry.value) return '';
     const type = entry.type || 'custom';
@@ -281,7 +277,7 @@
   }
 
   async function loadProfile() {
-    if (!supabase) return; // CDN failed to load; message already shown above.
+    if (!supabaseClient) return;
 
     const params = new URLSearchParams(window.location.search);
     const username = params.get('u')?.trim();
@@ -292,7 +288,7 @@
     }
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseClient
         .from('profiles')
         .select('username, display_name, photo_url, payment_links')
         .ilike('username', username)
