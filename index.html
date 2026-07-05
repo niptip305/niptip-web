@@ -146,6 +146,30 @@
     color: #bbb;
   }
 
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 20px 0;
+  }
+
+  .badge-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #FF1493, #0FF0DC);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .badge-chip .emoji {
+    font-size: 14px;
+  }
+
   .spinner {
     width: 28px;
     height: 28px;
@@ -223,6 +247,10 @@
     }
   }
 
+  // Renders one entry from the `payment_links` jsonb array. Each entry is
+  // expected to look like: { "type": "cashApp", "label": "Cash App", "value": "$joey" }
+  // "type" picks the icon/href-building rules above; "label" is optional
+  // display text (falls back to LINK_LABELS[type], then "Link").
   function linkItemHtml(entry) {
     if (!entry || !entry.value) return '';
     const type = entry.type || 'custom';
@@ -241,7 +269,46 @@
     `;
   }
 
-  function renderProfile(profile) {
+  // Same thresholds as the Flutter app's Creator Hub — keep these in
+  // sync if you ever change one side.
+  const TIP_MILESTONES = [
+    { threshold: 500, emoji: '✨', label: 'Tip Legend' },
+    { threshold: 250, emoji: '🌟', label: 'Superstar' },
+    { threshold: 100, emoji: '🔥', label: 'Century Tipper' },
+    { threshold: 50, emoji: '🎉', label: 'Crowd Pleaser' },
+    { threshold: 25, emoji: '💫', label: 'Fan Favorite' },
+    { threshold: 10, emoji: '🙂', label: 'Rising Star' },
+  ];
+
+  const REFERRAL_MILESTONES = [
+    { threshold: 50, emoji: '👑', label: 'Ambassador' },
+    { threshold: 30, emoji: '🥉', label: 'Badge Three' },
+    { threshold: 15, emoji: '🥈', label: 'Badge Two' },
+    { threshold: 5, emoji: '🥇', label: 'Badge One' },
+  ];
+
+  function highestMilestone(list, count) {
+    return list.find((m) => count >= m.threshold) || null;
+  }
+
+  function badgesHtml(tipCount, referralCount) {
+    const badges = [];
+
+    const tipBadge = highestMilestone(TIP_MILESTONES, tipCount || 0);
+    if (tipBadge) {
+      badges.push(`<div class="badge-chip"><span class="emoji">${tipBadge.emoji}</span>${tipBadge.label}</div>`);
+    }
+
+    const referralBadge = highestMilestone(REFERRAL_MILESTONES, referralCount || 0);
+    if (referralBadge) {
+      badges.push(`<div class="badge-chip"><span class="emoji">${referralBadge.emoji}</span>${referralBadge.label}</div>`);
+    }
+
+    if (badges.length === 0) return '';
+    return `<div class="badge-row">${badges.join('')}</div>`;
+  }
+
+  function renderProfile(profile, stats) {
     const avatarHtml = profile.photo_url
       ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}" />`
       : `<div class="avatar-placeholder">👤</div>`;
@@ -253,10 +320,13 @@
       linksHtml = profile.payment_links.map(linkItemHtml).join('');
     }
 
+    const badges = stats ? badgesHtml(stats.tip_count, stats.referral_count) : '';
+
     cardEl.innerHTML = `
       ${avatarHtml}
       <h1 class="username">@${profile.username}</h1>
       <p class="subtitle">Support ${displayName} below</p>
+      ${badges}
       <div class="link-list">
         ${linksHtml || '<p class="state-message">No links added yet.</p>'}
       </div>
@@ -277,7 +347,7 @@
   }
 
   async function loadProfile() {
-    if (!supabaseClient) return;
+    if (!supabaseClient) return; // CDN failed to load; message already shown above.
 
     const params = new URLSearchParams(window.location.search);
     const username = params.get('u')?.trim();
@@ -299,7 +369,29 @@
         return;
       }
 
-      renderProfile(data);
+      renderProfile(data, null);
+
+      // Badge stats come from leaderboard_totals — the public-safe
+      // aggregate table — not from profiles, since tip counts and
+      // referral counts live there. Fetched separately and re-rendered
+      // so a failure here never blocks showing the core profile.
+      try {
+        const { data: stats } = await supabaseClient
+          .from('leaderboard_totals')
+          .select('tip_count, referral_count')
+          .ilike('username', username)
+          .single();
+
+        if (stats) renderProfile(data, stats);
+      } catch (_) {
+        // No stats row yet (e.g. brand new user) — profile still shows fine.
+      }
+
+      // Fire-and-forget: increment this profile's tap counter. Failure
+      // here shouldn't block showing the profile to the visitor.
+      supabaseClient.rpc('increment_profile_taps', {
+        profile_username: data.username,
+      }).catch(() => {});
     } catch (e) {
       cardEl.innerHTML = `
         <p class="state-message">Something went wrong loading this profile. Please refresh.</p>
