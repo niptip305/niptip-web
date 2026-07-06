@@ -31,6 +31,7 @@
     border-radius: 50%;
     object-fit: cover;
     background: linear-gradient(135deg, #FF1493, #0FF0DC);
+    margin: 0 auto;
   }
   .username { font-size: 22px; font-weight: 800; margin: 14px 0 4px; }
   .bio { font-size: 14px; color: #9A9AAE; margin: 0 0 20px; }
@@ -44,7 +45,6 @@
   .link-item {
     display: flex;
     align-items: center;
-    gap: 10px;
     background: #1D1D27;
     border-radius: 12px;
     padding: 12px 14px;
@@ -52,7 +52,7 @@
     text-align: left;
   }
   .link-item .label { font-size: 11px; color: #9A9AAE; display: block; }
-  .link-item .value { font-size: 14px; font-weight: 600; }
+  .link-item .value { font-size: 14px; font-weight: 600; word-break: break-word; }
   .badge-row {
     display: flex;
     flex-wrap: wrap;
@@ -84,7 +84,6 @@
 <script>
   const SUPABASE_URL = 'https://jtqlkpiggmzvpcyjjhwd.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_klTPF2ZiLYzHqOsehCIQlA__wMG_176';
-
   const cardEl = document.getElementById('card');
 
   const TIP_MILESTONES = [
@@ -106,15 +105,13 @@
   function badgeRow(tiers, count) {
     return tiers.map(t => {
       const unlocked = count >= t.threshold;
-      return `<div class="badge-chip ${unlocked ? 'unlocked' : 'locked'}">
-        <span>${t.emoji}</span>${t.label}
-      </div>`;
+      return `<div class="badge-chip ${unlocked ? 'unlocked' : 'locked'}"><span>${t.emoji}</span>${t.label}</div>`;
     }).join('');
   }
 
   function linkTypeLabel(type) {
     const map = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal' };
-    return map[type] || type;
+    return map[type] || type || 'Link';
   }
 
   function linksHtml(links) {
@@ -136,9 +133,7 @@
     const referralCount = stats?.referral_count || 0;
 
     cardEl.innerHTML = `
-      ${profile.photo_url
-        ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}" />`
-        : `<div class="avatar"></div>`}
+      ${profile.photo_url ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}" />` : `<div class="avatar"></div>`}
       <h1 class="username">@${profile.username}</h1>
       <p class="bio">${profile.display_name || ''}</p>
 
@@ -173,7 +168,6 @@
     }
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     const params = new URLSearchParams(window.location.search);
     const username = params.get('u')?.trim();
 
@@ -202,9 +196,7 @@
 
       renderProfile(profile, stats);
 
-      supabaseClient.rpc('increment_profile_taps', {
-        profile_username: profile.username,
-      }).catch(() => {});
+      supabaseClient.rpc('increment_profile_taps', { profile_username: profile.username }).catch(() => {});
     } catch (e) {
       cardEl.innerHTML = '<p class="state-message">Something went wrong. Please refresh.</p>';
     }
