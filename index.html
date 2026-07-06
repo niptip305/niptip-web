@@ -196,7 +196,13 @@
 
       renderProfile(profile, stats);
 
-      supabaseClient.rpc('increment_profile_taps', { profile_username: profile.username }).catch(() => {});
+      // Isolated: a tap-counter failure must never wipe out the profile
+      // that already rendered successfully above.
+      try {
+        await supabaseClient.rpc('increment_profile_taps', { profile_username: profile.username });
+      } catch (tapError) {
+        console.warn('Tap counter failed (non-critical):', tapError);
+      }
     } catch (e) {
       console.error('NipTip profile error:', e);
       cardEl.innerHTML = '<p class="state-message">Something went wrong. Please refresh.</p>';
