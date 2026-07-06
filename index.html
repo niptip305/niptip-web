@@ -362,7 +362,7 @@
         .from('profiles')
         .select('username, display_name, photo_url, payment_links')
         .ilike('username', username)
-        .single();
+        .maybeSingle();
 
       if (error || !data) {
         renderNotFound();
@@ -380,7 +380,7 @@
           .from('leaderboard_totals')
           .select('tip_count, referral_count')
           .ilike('username', username)
-          .single();
+          .maybeSingle();
 
         if (stats) renderProfile(data, stats);
       } catch (_) {
