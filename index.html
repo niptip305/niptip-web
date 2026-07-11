@@ -65,12 +65,14 @@
   .link-item {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
     padding: 13px 16px;
     margin-bottom: 8px;
-    text-align: left;
+    text-align: center;
     text-decoration: none;
     color: inherit;
     transition: transform 0.15s ease, border-color 0.15s ease;
@@ -79,7 +81,7 @@
   a.link-item:hover { border-color: rgba(255,20,147,0.4); }
   .link-item .label { font-size: 15px; font-weight: 600; color: #F5F5FA; }
   .link-item .value { font-size: 15px; font-weight: 600; word-break: break-word; }
-  .link-item .arrow { margin-left: auto; opacity: 0.4; font-size: 14px; }
+  .link-item .arrow { opacity: 0.4; font-size: 14px; }
   .badge-row {
     display: flex;
     flex-wrap: wrap;
@@ -194,7 +196,19 @@
 
   function linkTypeLabel(type) {
     const map = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal', wise: 'Wise' };
-    return map[type] || 'Website';
+    return map[type];
+  }
+
+  // For custom links, shows the actual site name (e.g. "niptip.store" or
+  // "onlyfans.com") pulled from the real URL, instead of a generic
+  // "Website" label.
+  function websiteName(href) {
+    try {
+      const hostname = new URL(href).hostname.replace(/^www\./, '');
+      return hostname;
+    } catch (_) {
+      return 'Website';
+    }
   }
 
   // Prefers the stored full 'url' (new entries); falls back to
@@ -248,7 +262,7 @@
       const hrefAttr = href ? `href="${href}" target="_blank" rel="noopener"` : '';
       return `
         <${tag} class="link-item" ${hrefAttr}>
-          <span class="label">${linkTypeLabel(l.type)}</span>
+          <span class="label">${linkTypeLabel(l.type) || websiteName(href)}</span>
           ${href ? '<span class="arrow">↗</span>' : ''}
         </${tag}>
       `;
