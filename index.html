@@ -77,7 +77,7 @@
   }
   .link-item:active { transform: scale(0.98); }
   a.link-item:hover { border-color: rgba(255,20,147,0.4); }
-  .link-item .label { font-size: 11px; color: #9A9AAE; display: block; margin-bottom: 2px; }
+  .link-item .label { font-size: 15px; font-weight: 600; color: #F5F5FA; }
   .link-item .value { font-size: 15px; font-weight: 600; word-break: break-word; }
   .link-item .arrow { margin-left: auto; opacity: 0.4; font-size: 14px; }
   .badge-row {
@@ -194,7 +194,7 @@
 
   function linkTypeLabel(type) {
     const map = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal', wise: 'Wise' };
-    return map[type] || type || 'Link';
+    return map[type] || 'Website';
   }
 
   // Prefers the stored full 'url' (new entries); falls back to
@@ -248,10 +248,7 @@
       const hrefAttr = href ? `href="${href}" target="_blank" rel="noopener"` : '';
       return `
         <${tag} class="link-item" ${hrefAttr}>
-          <div>
-            <span class="label">${l.label || linkTypeLabel(l.type)}</span>
-            <span class="value">${displayValue(l)}</span>
-          </div>
+          <span class="label">${linkTypeLabel(l.type)}</span>
           ${href ? '<span class="arrow">↗</span>' : ''}
         </${tag}>
       `;
