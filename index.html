@@ -262,7 +262,7 @@
       const hrefAttr = href ? `href="${href}" target="_blank" rel="noopener"` : '';
       return `
         <${tag} class="link-item" ${hrefAttr}>
-          <span class="label">${linkTypeLabel(l.type) || websiteName(href)}</span>
+          <span class="label">${l.label || linkTypeLabel(l.type) || websiteName(href)}</span>
           ${href ? '<span class="arrow">↗</span>' : ''}
         </${tag}>
       `;
