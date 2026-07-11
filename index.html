@@ -16,44 +16,63 @@
     color: #F5F5FA;
     display: flex;
     justify-content: center;
-    padding: 40px 16px 60px;
+    padding: 40px 16px;
     min-height: 100vh;
   }
-  #ptr-indicator {
-    position: fixed; top: 0; left: 50%;
-    transform: translateX(-50%) translateY(-60px);
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    color: #0A0A0F;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px; font-weight: 800; letter-spacing: 1px;
-    padding: 8px 20px; border-radius: 0 0 16px 16px;
-    transition: transform 0.25s ease; z-index: 999; pointer-events: none;
-  }
-  #ptr-indicator.visible { transform: translateX(-50%) translateY(0); }
   .card {
-    width: 100%; max-width: 420px;
+    width: 100%;
+    max-width: 420px;
     background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 28px; padding: 36px 26px;
-    text-align: center; backdrop-filter: blur(20px);
+    border-radius: 28px;
+    padding: 36px 26px;
+    text-align: center;
+    backdrop-filter: blur(20px);
   }
   .avatar-wrap {
-    width: 104px; height: 104px; margin: 0 auto;
-    border-radius: 50%; padding: 3px;
+    width: 104px;
+    height: 104px;
+    margin: 0 auto;
+    border-radius: 50%;
+    padding: 3px;
     background: linear-gradient(135deg, #FF1493, #0FF0DC);
   }
-  .avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: #15151D; }
-  .username { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 800; margin: 16px 0 4px; letter-spacing: -0.3px; }
+  .avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: #15151D;
+  }
+  .username {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin: 16px 0 4px;
+    letter-spacing: -0.3px;
+  }
   .bio { font-size: 14px; color: #9A9AAE; margin: 0 0 24px; }
   .section-label {
-    font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 700;
-    letter-spacing: 1.2px; color: #9A9AAE; text-align: left; margin: 24px 0 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #9A9AAE;
+    text-align: left;
+    margin: 24px 0 10px;
   }
   .link-item {
-    display: flex; align-items: center;
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px; padding: 13px 16px; margin-bottom: 8px;
-    text-align: left; text-decoration: none; color: inherit;
+    display: flex;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+    text-align: left;
+    text-decoration: none;
+    color: inherit;
     transition: transform 0.15s ease, border-color 0.15s ease;
   }
   .link-item:active { transform: scale(0.98); }
@@ -61,556 +80,246 @@
   .link-item .label { font-size: 11px; color: #9A9AAE; display: block; margin-bottom: 2px; }
   .link-item .value { font-size: 15px; font-weight: 600; word-break: break-word; }
   .link-item .arrow { margin-left: auto; opacity: 0.4; font-size: 14px; }
-  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
   .badge-chip {
-    display: flex; align-items: center; gap: 6px;
-    padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
     background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    color: #0A0A0F; box-shadow: 0 2px 12px rgba(255,20,147,0.25);
+    color: #0A0A0F;
+    box-shadow: 0 2px 12px rgba(255,20,147,0.25);
   }
   .badge-chip .emoji { font-size: 14px; }
   .referral-card {
-    margin-top: 24px; padding: 18px; border-radius: 18px;
-    background: rgba(255,20,147,0.08); border: 1px solid rgba(255,20,147,0.15);
+    margin-top: 24px;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,20,147,0.08);
+    border: 1px solid rgba(255,20,147,0.15);
   }
   .referral-count {
-    font-family: 'Montserrat', sans-serif; font-size: 30px; font-weight: 900;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 900;
     background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .referral-label { font-size: 11px; color: #9A9AAE; letter-spacing: 1px; font-weight: 600; }
   .state-message { color: #9A9AAE; font-size: 14px; padding: 40px 0; }
- 
-  /* Grid */
-  #feed-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 4px;
+  .footer {
+    margin-top: 32px;
+    font-size: 11px;
+    color: #444;
+    font-weight: 600;
+    letter-spacing: 0.5px;
   }
-  .grid-thumb {
-    aspect-ratio: 1; background: #15151D; overflow: hidden;
-    cursor: pointer; position: relative; border-radius: 4px;
-  }
-  .grid-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.2s ease; }
-  .grid-thumb:active img { transform: scale(0.96); }
-  .grid-thumb-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0);
-    display: flex; align-items: center; justify-content: center;
-    gap: 10px; color: #fff; font-size: 13px; font-weight: 700;
-    opacity: 0; transition: opacity 0.2s ease;
-  }
-  .grid-thumb:hover .grid-thumb-overlay { opacity: 1; background: rgba(0,0,0,0.45); }
-  .grid-no-img {
-    aspect-ratio: 1; background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.07); border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; padding: 8px; font-size: 11px; color: #9A9AAE;
-    line-height: 1.4; text-align: center; overflow: hidden;
-  }
-  .feed-empty { color: #9A9AAE; font-size: 13px; text-align: center; padding: 24px 0 8px; grid-column: 1/-1; }
- 
-  /* Modal */
-  #modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85); z-index: 1000;
-    justify-content: center; align-items: flex-end;
-    backdrop-filter: blur(6px);
-  }
-  #modal-overlay.open { display: flex; }
-  #modal-sheet {
-    width: 100%; max-width: 480px; background: #12121A;
-    border-radius: 24px 24px 0 0; max-height: 92vh;
-    overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 24px;
-  }
-  .modal-drag-bar { width: 40px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin: 12px auto 0; }
-  #modal-img-wrap { width: 100%; overflow: hidden; touch-action: none; background: #0e0e14; }
-  #modal-img { width: 100%; display: block; object-fit: cover; transform-origin: center center; transform: scale(1) translate(0px,0px); user-select: none; -webkit-user-drag: none; pointer-events: none; }
-  .modal-body { padding: 16px 18px 0; }
-  .modal-username { font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 800; color: #FF1493; margin-bottom: 6px; }
-  .modal-caption { font-size: 14px; line-height: 1.55; color: #E0E0EA; margin-bottom: 8px; word-break: break-word; }
-  .modal-time { font-size: 11px; color: #555566; margin-bottom: 12px; }
-  .modal-actions { display: flex; gap: 12px; margin-bottom: 16px; }
-  .action-btn {
-    display: flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px; padding: 8px 16px; font-size: 13px; font-weight: 600;
-    color: #F5F5FA; cursor: pointer; transition: all 0.15s ease; user-select: none;
-  }
-  .action-btn:active { transform: scale(0.95); }
-  .action-btn.liked { background: rgba(255,20,147,0.15); border-color: rgba(255,20,147,0.4); color: #FF1493; }
-  .modal-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 14px; }
-  #comments-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; padding: 0 18px; }
-  .comment-item { display: flex; gap: 10px; align-items: flex-start; }
-  .comment-avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 800; color: #0A0A0F;
-  }
-  .comment-bubble { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 8px 12px; flex: 1; }
-  .comment-user { font-size: 11px; font-weight: 700; color: #FF1493; margin-bottom: 2px; }
-  .comment-text { font-size: 13px; color: #E0E0EA; line-height: 1.4; word-break: break-word; }
-  .comment-time { font-size: 10px; color: #555566; margin-top: 3px; }
-  .no-comments { font-size: 13px; color: #555566; text-align: center; padding: 8px 0 4px; }
-  .comment-input-row {
-    display: flex; gap: 8px; align-items: center; padding: 0 18px;
-  }
-  .comment-input-row input {
-    flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px; padding: 10px 16px; font-size: 13px; color: #F5F5FA;
-    font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s ease;
-  }
-  .comment-input-row input:focus { border-color: rgba(255,20,147,0.5); }
-  .comment-input-row input::placeholder { color: #555566; }
-  .send-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; transition: transform 0.15s ease;
-  }
-  .send-btn:active { transform: scale(0.9); }
-  .send-btn svg { width: 16px; height: 16px; fill: #0A0A0F; }
-  .footer { margin-top: 32px; font-size: 11px; color: #444; font-weight: 600; letter-spacing: 0.5px; }
 </style>
 </head>
 <body>
- 
-<div id="ptr-indicator">REFRESHING…</div>
- 
-<div id="modal-overlay">
-  <div id="modal-sheet">
-    <div class="modal-drag-bar"></div>
-    <div style="display:flex;align-items:center;padding:10px 18px 0;">
-      <button onclick="closeModal()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:20px;color:#F5F5FA;font-size:13px;font-weight:600;padding:7px 16px;cursor:pointer;display:flex;align-items:center;gap:6px;">← Back</button>
-    </div>
-    <div id="modal-img-wrap" style="display:none">
-      <img id="modal-img" src="" alt="post" />
-    </div>
-    <div class="modal-body">
-      <div class="modal-username" id="modal-username"></div>
-      <div class="modal-caption" id="modal-caption"></div>
-      <div class="modal-time" id="modal-time"></div>
-      <div class="modal-actions">
-        <div class="action-btn" id="like-btn" onclick="handleLike()">
-          <span id="like-icon">🤍</span>
-          <span id="like-count">0</span>
-        </div>
-        <div class="action-btn">
-          <span>💬</span>
-          <span id="comment-count-label">0</span>
-        </div>
-      </div>
-      <div class="modal-divider"></div>
-      <div id="comments-list"></div>
-    </div>
-    <div class="comment-input-row">
-      <input type="text" id="comment-input" placeholder="Add a comment…" maxlength="300" />
-      <button class="send-btn" onclick="handleComment()">
-        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-      </button>
-    </div>
+  <div class="card" id="card">
+    <p class="state-message">Loading...</p>
   </div>
-</div>
- 
-<div class="card" id="card">
-  <p class="state-message">Loading…</p>
-</div>
- 
+
 <script>
-(function () {
-  'use strict';
- 
-  const SUPABASE_URL      = 'https://jtqlkpiggmzvpcyjjhwd.supabase.co';
+  const SUPABASE_URL = 'https://jtqlkpiggmzvpcyjjhwd.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_klTPF2ZiLYzHqOsehCIQlA__wMG_176';
- 
-  let sbClient    = null;
-  let posts       = [];
-  let realtimeSub = null;
-  let activePost  = null;
-  let hasLiked    = false;
-  let guestName   = '';
- 
-  const cardEl  = document.getElementById('card');
-  const ptrEl   = document.getElementById('ptr-indicator');
-  const modalEl = document.getElementById('modal-overlay');
- 
+  const cardEl = document.getElementById('card');
+
   const TIP_MILESTONES = [
-    { threshold: 10,  emoji: '🙂', label: 'Rising Star'    },
-    { threshold: 25,  emoji: '💫', label: 'Fan Favorite'   },
-    { threshold: 50,  emoji: '🎉', label: 'Crowd Pleaser'  },
+    { threshold: 10, emoji: '🙂', label: 'Rising Star' },
+    { threshold: 25, emoji: '💫', label: 'Fan Favorite' },
+    { threshold: 50, emoji: '🎉', label: 'Crowd Pleaser' },
     { threshold: 100, emoji: '🔥', label: 'Century Tipper' },
-    { threshold: 250, emoji: '🌟', label: 'Superstar'      },
-    { threshold: 500, emoji: '✨', label: 'Tip Legend'     },
+    { threshold: 250, emoji: '🌟', label: 'Superstar' },
+    { threshold: 500, emoji: '✨', label: 'Tip Legend' },
   ];
+
   const REFERRAL_TIERS = [
-    { threshold: 5,  emoji: '🥇', label: 'Badge One'   },
-    { threshold: 15, emoji: '🥈', label: 'Badge Two'   },
+    { threshold: 5, emoji: '🥇', label: 'Badge One' },
+    { threshold: 15, emoji: '🥈', label: 'Badge Two' },
     { threshold: 30, emoji: '🥉', label: 'Badge Three' },
-    { threshold: 50, emoji: '👑', label: 'Ambassador'  },
+    { threshold: 50, emoji: '👑', label: 'Ambassador' },
   ];
- 
+
+  // Only earned badges — filtered before rendering, never shows locked ones.
   function earnedBadgesHtml(tiers, count) {
-    return tiers.filter(t => count >= t.threshold)
-      .map(t => `<div class="badge-chip"><span class="emoji">${t.emoji}</span>${t.label}</div>`)
-      .join('');
+    const earned = tiers.filter(t => count >= t.threshold);
+    if (earned.length === 0) return '';
+    return earned.map(t =>
+      `<div class="badge-chip"><span class="emoji">${t.emoji}</span>${t.label}</div>`
+    ).join('');
   }
- 
+
   function linkTypeLabel(type) {
-    return ({ cashApp:'Cash App', venmo:'Venmo', paypal:'PayPal', wise:'Wise' })[type] || type || 'Link';
+    const map = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal', wise: 'Wise' };
+    return map[type] || type || 'Link';
   }
+
+  // Prefers the stored full 'url' (new entries); falls back to
+  // constructing one from type + value for older entries.
   function linkHref(link) {
     if (link.url) return link.url;
-    const v = (link.value||'').trim();
-    if (!v) return null;
-    if (/^https?:\/\//i.test(v)) return v;
-    switch(link.type) {
-      case 'cashApp': return `https://cash.app/${v.replace(/^\$/,'')}`;
-      case 'venmo':   return `https://venmo.com/${v.replace(/^@/,'')}`;
-      case 'paypal':  return `https://paypal.me/${v.replace(/^@/,'')}`;
-      case 'wise':    return `https://wise.com/pay/me/${v.replace(/^@/,'')}`;
-      default:        return `https://${v}`;
+
+    const value = (link.value || '').trim();
+    if (!value) return null;
+    if (/^https?:\/\//i.test(value)) return value;
+
+    switch (link.type) {
+      case 'cashApp':
+        return `https://cash.app/${value.replace(/^\$/, '')}`;
+      case 'venmo':
+        return `https://venmo.com/${value.replace(/^@/, '')}`;
+      case 'paypal':
+        return `https://paypal.me/${value.replace(/^@/, '')}`;
+      case 'wise':
+        return `https://wise.com/pay/me/${value.replace(/^@/, '')}`;
+      default:
+        // Custom links (e.g. "niptip.store") — treat as a bare domain.
+        return `https://${value}`;
     }
   }
+
+  // Strips known domain prefixes so the display always shows just the
+  // handle, even for older rows where 'value' was saved as a full URL.
   function displayValue(link) {
-    const raw = (link.value||'').trim();
-    const pats = {
-      cashApp:/^https?:\/\/(www\.)?cash\.app\//i,
-      venmo:/^https?:\/\/(www\.)?venmo\.com\//i,
-      paypal:/^https?:\/\/(www\.)?paypal\.me\//i,
-      wise:/^https?:\/\/(www\.)?wise\.com\/pay\/me\//i,
+    const raw = (link.value || '').trim();
+    const patterns = {
+      cashApp: /^https?:\/\/(www\.)?cash\.app\//i,
+      venmo: /^https?:\/\/(www\.)?venmo\.com\//i,
+      paypal: /^https?:\/\/(www\.)?paypal\.me\//i,
+      wise: /^https?:\/\/(www\.)?wise\.com\/pay\/me\//i,
     };
-    const p = pats[link.type];
-    return (p && p.test(raw)) ? raw.replace(p,'').replace(/\/$/,'') : raw;
+    const pattern = patterns[link.type];
+    if (pattern && pattern.test(raw)) {
+      return raw.replace(pattern, '').replace(/\/$/, '');
+    }
+    return raw;
   }
+
   function linksHtml(links) {
-    if (!Array.isArray(links)||!links.length) return '<p class="state-message">No payment links yet.</p>';
+    if (!Array.isArray(links) || links.length === 0) {
+      return '<p class="state-message">No payment links yet.</p>';
+    }
     return links.map(l => {
-      const href = linkHref(l), tag = href?'a':'div';
-      const attr = href?`href="${href}" target="_blank" rel="noopener"`:'';
-      return `<${tag} class="link-item" ${attr}><div><span class="label">${l.label||linkTypeLabel(l.type)}</span><span class="value">${displayValue(l)}</span></div>${href?'<span class="arrow">↗</span>':''}</${tag}>`;
+      const href = linkHref(l);
+      const tag = href ? 'a' : 'div';
+      const hrefAttr = href ? `href="${href}" target="_blank" rel="noopener"` : '';
+      return `
+        <${tag} class="link-item" ${hrefAttr}>
+          <div>
+            <span class="label">${l.label || linkTypeLabel(l.type)}</span>
+            <span class="value">${displayValue(l)}</span>
+          </div>
+          ${href ? '<span class="arrow">↗</span>' : ''}
+        </${tag}>
+      `;
     }).join('');
   }
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-  function timeAgo(iso) {
-    const m = Math.floor((Date.now()-new Date(iso))/60000);
-    if (m<1) return 'just now';
-    if (m<60) return `${m}m ago`;
-    const h = Math.floor(m/60);
-    if (h<24) return `${h}h ago`;
-    return `${Math.floor(h/24)}d ago`;
-  }
-  function uid() {
-    return (crypto.randomUUID ? crypto.randomUUID() : 'g-'+Math.random().toString(36).slice(2));
-  }
- 
-  // ── Grid ───────────────────────────────────────────────────────────────────
-  function renderGrid() {
-    const grid = document.getElementById('feed-grid');
-    if (!grid) return;
-    if (!posts.length) { grid.innerHTML = '<p class="feed-empty">No posts yet.</p>'; return; }
-    grid.innerHTML = posts.map(p => {
-      const imgs = Array.isArray(p.image_urls) ? p.image_urls : [];
-      if (imgs.length) {
-        return `<div class="grid-thumb" onclick="openPost('${p.id}')">
-          <img src="${imgs[0]}" alt="post" loading="lazy"/>
-          <div class="grid-thumb-overlay"><span>❤️ ${p.like_count||0}</span><span>💬 ${p.comment_count||0}</span></div>
-        </div>`;
-      }
-      return `<div class="grid-no-img" onclick="openPost('${p.id}')">${esc((p.caption||'').slice(0,60))}</div>`;
-    }).join('');
-  }
- 
-  // ── Modal open ─────────────────────────────────────────────────────────────
-  window.openPost = async function(postId) {
-    activePost = posts.find(p => p.id === postId);
-    if (!activePost) return;
-    hasLiked = false;
- 
-    const imgs = Array.isArray(activePost.image_urls) ? activePost.image_urls : [];
-    const imgWrap = document.getElementById('modal-img-wrap');
-    const imgEl   = document.getElementById('modal-img');
- 
-    if (imgs.length) {
-      imgEl.src = imgs[0];
-      imgEl.style.transform = 'scale(1) translate(0px,0px)';
-      imgWrap.style.display = 'block';
-      setupZoom(imgWrap, imgEl);
-    } else {
-      imgWrap.style.display = 'none';
-    }
- 
-    document.getElementById('modal-username').textContent         = '@'+activePost.username;
-    document.getElementById('modal-caption').textContent          = activePost.caption || '';
-    document.getElementById('modal-time').textContent             = timeAgo(activePost.created_at);
-    document.getElementById('like-count').textContent             = activePost.like_count || 0;
-    document.getElementById('comment-count-label').textContent    = activePost.comment_count || 0;
-    document.getElementById('like-icon').textContent              = '🤍';
-    document.getElementById('like-btn').classList.remove('liked');
-    document.getElementById('comment-input').value                = '';
-    document.getElementById('comments-list').innerHTML            = '<p class="no-comments">Loading…</p>';
- 
-    modalEl.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    await loadComments(postId);
-  };
- 
-  modalEl.addEventListener('click', e => { if (e.target === modalEl) closeModal(); });
- 
-  window.closeModal = function closeModal() {
-    modalEl.classList.remove('open');
-    document.body.style.overflow = '';
-    activePost = null;
-  }
- 
-  // ── Like ───────────────────────────────────────────────────────────────────
-  window.handleLike = async function() {
-    if (!activePost || hasLiked) return;
-    hasLiked = true;
-    document.getElementById('like-btn').classList.add('liked');
-    document.getElementById('like-icon').textContent = '❤️';
-    const newCount = (activePost.like_count||0)+1;
-    document.getElementById('like-count').textContent = newCount;
-    activePost.like_count = newCount;
-    posts = posts.map(p => p.id===activePost.id ? {...p, like_count: newCount} : p);
-    renderGrid();
-    try {
-      await sbClient.from('center_stage_likes').insert({ post_id: activePost.id, user_id: uid() });
-      await sbClient.from('center_stage_posts').update({ like_count: newCount }).eq('id', activePost.id);
-    } catch(e) { console.warn('Like error:', e); }
-  };
- 
-  // ── Comments ───────────────────────────────────────────────────────────────
-  async function loadComments(postId) {
-    try {
-      const { data, error } = await sbClient
-        .from('center_stage_comments')
-        .select('id, username, content, created_at')
-        .eq('post_id', postId)
-        .order('created_at', { ascending: true })
-        .limit(50);
-      if (error) throw error;
-      renderComments(data||[]);
-    } catch(e) {
-      console.warn('Comments error:', e);
-      document.getElementById('comments-list').innerHTML = '<p class="no-comments">Could not load comments.</p>';
-    }
-  }
- 
-  function renderComments(comments) {
-    const list = document.getElementById('comments-list');
-    if (!list) return;
-    if (!comments.length) { list.innerHTML = '<p class="no-comments">No comments yet. Be the first!</p>'; return; }
-    list.innerHTML = comments.map(c => `
-      <div class="comment-item">
-        <div class="comment-avatar">${(c.username||'G').slice(0,2).toUpperCase()}</div>
-        <div class="comment-bubble">
-          <div class="comment-user">@${esc(c.username||'guest')}</div>
-          <div class="comment-text">${esc(c.content)}</div>
-          <div class="comment-time">${timeAgo(c.created_at)}</div>
-        </div>
-      </div>`).join('');
-  }
- 
-  window.handleComment = async function() {
-    if (!activePost) return;
-    const input   = document.getElementById('comment-input');
-    const content = input.value.trim();
-    if (!content) return;
-    if (!guestName) {
-      const name = prompt('Your name (shown with your comment):');
-      if (!name||!name.trim()) return;
-      guestName = name.trim().slice(0,30);
-    }
-    input.value = '';
-    const list   = document.getElementById('comments-list');
-    const noMsg  = list.querySelector('.no-comments');
-    if (noMsg) noMsg.remove();
-    const tmpEl  = document.createElement('div');
-    tmpEl.className = 'comment-item';
-    tmpEl.innerHTML = `
-      <div class="comment-avatar">${guestName.slice(0,2).toUpperCase()}</div>
-      <div class="comment-bubble">
-        <div class="comment-user">@${esc(guestName)}</div>
-        <div class="comment-text">${esc(content)}</div>
-        <div class="comment-time">just now</div>
-      </div>`;
-    list.appendChild(tmpEl);
-    list.scrollTop = list.scrollHeight;
-    const newCount = (activePost.comment_count||0)+1;
-    activePost.comment_count = newCount;
-    document.getElementById('comment-count-label').textContent = newCount;
-    posts = posts.map(p => p.id===activePost.id ? {...p, comment_count: newCount} : p);
-    renderGrid();
-    try {
-      await sbClient.from('center_stage_comments').insert({
-        post_id: activePost.id, user_id: uid(), username: guestName, content
-      });
-      await sbClient.from('center_stage_posts').update({ comment_count: newCount }).eq('id', activePost.id);
-    } catch(e) { console.warn('Comment error:', e); }
-  };
- 
-  document.getElementById('comment-input').addEventListener('keydown', e => {
-    if (e.key==='Enter') { e.preventDefault(); window.handleComment(); }
-  });
- 
-  // ── Pinch-to-zoom ──────────────────────────────────────────────────────────
-  function setupZoom(wrap, img) {
-    let scale=1, tx=0, ty=0, lastDist=null, lastMidX=0, lastMidY=0;
-    let dragging=false, dragX=0, dragY=0, baseTx=0, baseTy=0, lastTap=0;
-    const MAX=5;
- 
-    const dist = t => Math.hypot(t[0].clientX-t[1].clientX, t[0].clientY-t[1].clientY);
-    const midpt = t => ({ x:(t[0].clientX+t[1].clientX)/2, y:(t[0].clientY+t[1].clientY)/2 });
-    function apply(anim) {
-      img.style.transition = anim?'transform 0.25s ease':'none';
-      img.style.transform  = `scale(${scale}) translate(${tx}px,${ty}px)`;
-    }
-    function clamp() {
-      if (scale<=1) { tx=0; ty=0; return; }
-      const r=wrap.getBoundingClientRect();
-      const mx=(r.width*(scale-1))/(2*scale), my=(r.height*(scale-1))/(2*scale);
-      tx=Math.max(-mx,Math.min(mx,tx)); ty=Math.max(-my,Math.min(my,ty));
-    }
-    wrap.addEventListener('touchstart', e => {
-      if (e.touches.length===2) { lastDist=dist(e.touches); const m=midpt(e.touches); lastMidX=m.x; lastMidY=m.y; }
-      else if (e.touches.length===1 && scale>1) { dragging=true; dragX=e.touches[0].clientX; dragY=e.touches[0].clientY; baseTx=tx; baseTy=ty; }
-      const now=Date.now();
-      if (now-lastTap<300) { scale=1; tx=0; ty=0; apply(true); }
-      lastTap=now;
-    }, {passive:true});
-    wrap.addEventListener('touchmove', e => {
-      if (e.touches.length===2 && lastDist!==null) {
-        e.preventDefault();
-        const nd=dist(e.touches), m=midpt(e.touches);
-        scale=Math.min(MAX,Math.max(1,scale*(nd/lastDist)));
-        tx+=(m.x-lastMidX)/scale; ty+=(m.y-lastMidY)/scale;
-        lastDist=nd; lastMidX=m.x; lastMidY=m.y;
-        clamp(); apply(false);
-      } else if (e.touches.length===1 && dragging) {
-        if (scale>1) e.preventDefault();
-        tx=baseTx+(e.touches[0].clientX-dragX)/scale;
-        ty=baseTy+(e.touches[0].clientY-dragY)/scale;
-        clamp(); apply(false);
-      }
-    }, {passive:false});
-    wrap.addEventListener('touchend', e => {
-      if (e.touches.length<2) lastDist=null;
-      if (!e.touches.length) dragging=false;
-      if (scale<1.05) { scale=1; tx=0; ty=0; apply(true); }
-    }, {passive:true});
-  }
- 
-  // ── Feed load + realtime ───────────────────────────────────────────────────
-  async function loadPosts(username) {
-    try {
-      const { data, error } = await sbClient
-        .from('center_stage_posts')
-        .select('id, username, caption, image_urls, like_count, comment_count, created_at')
-        .ilike('username', username)
-        .eq('feed_type', 'public')
-        .order('created_at', { ascending: false })
-        .limit(30);
-      if (error) throw error;
-      posts = data||[];
-      renderGrid();
-    } catch(e) {
-      console.warn('Posts error:', e);
-      const g = document.getElementById('feed-grid');
-      if (g) g.innerHTML = '<p class="feed-empty">Could not load posts.</p>';
-    }
-  }
- 
-  function subscribeToFeed(username) {
-    if (realtimeSub) { try { sbClient.removeChannel(realtimeSub); } catch(_){} realtimeSub=null; }
-    realtimeSub = sbClient.channel(`pub-${username}`)
-      .on('postgres_changes', { event:'*', schema:'public', table:'center_stage_posts', filter:`username=ilike.${username}` }, payload => {
-        try {
-          if (payload.eventType==='INSERT' && payload.new?.feed_type==='public') { posts=[payload.new,...posts].slice(0,30); }
-          else if (payload.eventType==='UPDATE') {
-            posts = posts.map(p => p.id===payload.new.id ? {...p,...payload.new} : p);
-            if (activePost?.id===payload.new.id) {
-              activePost={...activePost,...payload.new};
-              document.getElementById('like-count').textContent=activePost.like_count||0;
-              document.getElementById('comment-count-label').textContent=activePost.comment_count||0;
-            }
-          } else if (payload.eventType==='DELETE') { posts=posts.filter(p=>p.id!==payload.old?.id); }
-          renderGrid();
-        } catch(e) { console.warn('Realtime handler error:', e); }
-      })
-      .subscribe(s => { if (s==='CHANNEL_ERROR'||s==='TIMED_OUT') setTimeout(()=>subscribeToFeed(username),5000); });
-  }
- 
-  // ── Pull-to-refresh ────────────────────────────────────────────────────────
-  function setupPTR(username) {
-    let startY=0, pulling=false, triggered=false;
-    document.addEventListener('touchstart', e => {
-      if (window.scrollY===0 && e.touches.length===1 && !modalEl.classList.contains('open')) {
-        startY=e.touches[0].clientY; pulling=true; triggered=false;
-      }
-    }, {passive:true});
-    document.addEventListener('touchmove', e => {
-      if (pulling && e.touches[0].clientY-startY>72 && !triggered) { triggered=true; ptrEl.classList.add('visible'); }
-    }, {passive:true});
-    document.addEventListener('touchend', async () => {
-      if (!pulling) return; pulling=false;
-      if (triggered) {
-        try { await loadPosts(username); subscribeToFeed(username); } catch(e){}
-        finally { ptrEl.classList.remove('visible'); triggered=false; }
-      }
-    }, {passive:true});
-  }
- 
-  // ── Profile render ─────────────────────────────────────────────────────────
+
   function renderProfile(profile, stats) {
-    const tc=stats?.tip_count||0, rc=stats?.referral_count||0;
-    const tb=earnedBadgesHtml(TIP_MILESTONES,tc), rb=earnedBadgesHtml(REFERRAL_TIERS,rc);
+    const tipCount = stats?.tip_count || 0;
+    const referralCount = stats?.referral_count || 0;
+
+    const tipBadges = earnedBadgesHtml(TIP_MILESTONES, tipCount);
+    const referralBadges = earnedBadgesHtml(REFERRAL_TIERS, referralCount);
+
     cardEl.innerHTML = `
       <div class="avatar-wrap">
         ${profile.photo_url
-          ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}"/>`
+          ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}" />`
           : `<div class="avatar"></div>`}
       </div>
       <h1 class="username">@${profile.username}</h1>
-      <p class="bio">${profile.display_name||''}</p>
+      <p class="bio">${profile.display_name || ''}</p>
+
       <div class="section-label">PAYMENT LINKS</div>
       ${linksHtml(profile.payment_links)}
-      ${tb?`<div class="section-label">TIP MILESTONES</div><div class="badge-row">${tb}</div>`:''}
-      ${rb?`<div class="section-label">REFERRAL TIERS</div><div class="badge-row">${rb}</div>`:''}
+
+      ${tipBadges ? `
+        <div class="section-label">TIP MILESTONES</div>
+        <div class="badge-row">${tipBadges}</div>
+      ` : ''}
+
+      ${referralBadges ? `
+        <div class="section-label">REFERRAL TIERS</div>
+        <div class="badge-row">${referralBadges}</div>
+      ` : ''}
+
       <div class="referral-card">
-        <div class="referral-count">${rc}</div>
+        <div class="referral-count">${referralCount}</div>
         <div class="referral-label">REFERRALS</div>
       </div>
-      <div class="section-label">POSTS</div>
-      <div id="feed-grid"><p class="feed-empty">Loading posts…</p></div>
-      <div class="footer">POWERED BY NIPTIP</div>`;
+
+      <div class="footer">POWERED BY NIPTIP</div>
+    `;
   }
- 
-  // ── Main ───────────────────────────────────────────────────────────────────
+
+  function renderNotFound() {
+    cardEl.innerHTML = '<p class="state-message">Profile not found.</p>';
+  }
+
+  function renderNoUsername() {
+    cardEl.innerHTML = '<p class="state-message">No username provided.</p>';
+  }
+
   async function main() {
-    if (typeof supabase==='undefined') { cardEl.innerHTML='<p class="state-message">Could not load. Please refresh.</p>'; return; }
-    sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const username = new URLSearchParams(window.location.search).get('u')?.trim();
-    if (!username) { cardEl.innerHTML='<p class="state-message">No username provided.</p>'; return; }
+    if (typeof supabase === 'undefined') {
+      cardEl.innerHTML = '<p class="state-message">Could not load. Please refresh.</p>';
+      return;
+    }
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get('u')?.trim();
+
+    if (!username) {
+      renderNoUsername();
+      return;
+    }
+
     try {
-      const { data: profile, error: pErr } = await sbClient.from('profiles')
+      const { data: profile, error } = await supabaseClient
+        .from('profiles')
         .select('username, display_name, photo_url, payment_links')
-        .ilike('username', username).maybeSingle();
-      if (pErr||!profile) { cardEl.innerHTML='<p class="state-message">Profile not found.</p>'; return; }
-      const { data: stats } = await sbClient.from('leaderboard_totals')
-        .select('tip_count, referral_count').ilike('username', username).maybeSingle();
+        .ilike('username', username)
+        .maybeSingle();
+
+      if (error || !profile) {
+        renderNotFound();
+        return;
+      }
+
+      const { data: stats } = await supabaseClient
+        .from('leaderboard_totals')
+        .select('tip_count, referral_count')
+        .ilike('username', username)
+        .maybeSingle();
+
       renderProfile(profile, stats);
-      await loadPosts(profile.username);
-      subscribeToFeed(profile.username);
-      setupPTR(profile.username);
-      try { await sbClient.rpc('increment_profile_taps', { profile_username: profile.username }); } catch(_){}
-    } catch(e) {
-      console.error('NipTip error:', e);
-      cardEl.innerHTML='<p class="state-message">Something went wrong. Please refresh.</p>';
+
+      try {
+        await supabaseClient.rpc('increment_profile_taps', { profile_username: profile.username });
+      } catch (tapError) {
+        console.warn('Tap counter failed (non-critical):', tapError);
+      }
+    } catch (e) {
+      console.error('NipTip profile error:', e);
+      cardEl.innerHTML = '<p class="state-message">Something went wrong. Please refresh.</p>';
     }
   }
- 
+
   main();
-})();
 </script>
 </body>
 </html>
