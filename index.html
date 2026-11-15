@@ -1,401 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="baddie">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NipTip</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070509">
+<title>NipTips</title>
+<meta name="description" content="Tap in. Light her up. Tips go straight to her.">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: 'Inter', -apple-system, sans-serif;
-    background: radial-gradient(circle at 50% 0%, #1a0d18 0%, #0A0A0F 60%);
-    color: #F5F5FA;
-    display: flex;
-    justify-content: center;
-    padding: 40px 16px;
-    min-height: 100vh;
-  }
-  .card {
-    width: 100%;
-    max-width: 420px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 28px;
-    padding: 36px 26px;
-    text-align: center;
-    backdrop-filter: blur(20px);
-  }
-  .avatar-wrap {
-    width: 104px;
-    height: 104px;
-    margin: 0 auto;
-    border-radius: 50%;
-    padding: 3px;
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-  }
-  .avatar {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    background: #15151D;
-  }
-  .username {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: 800;
-    margin: 16px 0 4px;
-    letter-spacing: -0.3px;
-  }
-  .bio { font-size: 14px; color: #9A9AAE; margin: 0 0 24px; }
-  .section-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    color: #9A9AAE;
-    text-align: left;
-    margin: 24px 0 10px;
-  }
-  .link-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 14px;
-    padding: 13px 16px;
-    margin-bottom: 8px;
-    text-align: center;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.15s ease, border-color 0.15s ease;
-  }
-  .link-item:active { transform: scale(0.98); }
-  a.link-item:hover { border-color: rgba(255,20,147,0.4); }
-  .link-item .label { font-size: 15px; font-weight: 600; color: #F5F5FA; }
-  .link-item .value { font-size: 15px; font-weight: 600; word-break: break-word; }
-  .link-item .arrow { opacity: 0.4; font-size: 14px; }
-  .badge-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-  .badge-chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    color: #0A0A0F;
-    box-shadow: 0 2px 12px rgba(255,20,147,0.25);
-  }
-  .badge-chip .emoji { font-size: 14px; }
-  .referral-card {
-    margin-top: 24px;
-    padding: 18px;
-    border-radius: 18px;
-    background: rgba(255,20,147,0.08);
-    border: 1px solid rgba(255,20,147,0.15);
-  }
-  .referral-count {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 30px;
-    font-weight: 900;
-    background: linear-gradient(135deg, #FF1493, #0FF0DC);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .referral-label { font-size: 11px; color: #9A9AAE; letter-spacing: 1px; font-weight: 600; }
-  .state-message { color: #9A9AAE; font-size: 14px; padding: 40px 0; }
-  .post-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-  }
-  .grid-item {
-    aspect-ratio: 1;
-    overflow: hidden;
-    background: #1D1D27;
-  }
-  .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  #after-hours-gate {
-    background: #14090A;
-    border: 1px solid #C41E3A;
-    border-radius: 16px;
-    padding: 24px 20px;
-    text-align: center;
-  }
-  .gate-badge { font-size: 26px; font-weight: 800; color: #C41E3A; margin-bottom: 6px; }
-  .gate-text { font-size: 13px; color: #9A9AAE; margin-bottom: 14px; }
-  .gate-btn {
-    background: #C41E3A;
-    color: #fff;
-    border: none;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 12px;
-    cursor: pointer;
-  }
-
-  .footer {
-    margin-top: 32px;
-    font-size: 11px;
-    color: #444;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
+  [data-theme="baddie"] { --bg:#070509; --top:#2a0714; --glass:rgba(20,10,16,.6); --line:rgba(255,120,170,.2); --text:#f7eef3; --muted:#a08a98; --a1:#ff2d7a; --a2:#e3122f; --a3:#8f3dff; --shadow:rgba(0,0,0,.55); color-scheme:dark; }
+  [data-theme="girly"]  { --bg:#fdeef4; --top:#ffd9ea; --glass:rgba(255,255,255,.65); --line:rgba(255,255,255,.95); --text:#3a1a37; --muted:#8a6687; --a1:#ff4f9e; --a2:#ff7ab8; --a3:#b77bff; --shadow:rgba(170,90,160,.2); color-scheme:light; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { margin:0; }
+  body { min-height:100vh; background:radial-gradient(120% 60% at 50% -10%, var(--top), var(--bg) 60%) var(--bg) fixed; color:var(--text); font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; overflow-x:hidden; }
+  main { max-width:460px; margin:0 auto; padding:calc(14px + env(safe-area-inset-top)) 18px calc(40px + env(safe-area-inset-bottom)); position:relative; z-index:1; }
+  .grad { background:linear-gradient(118deg,var(--a2),var(--a1) 48%,var(--a3)); }
+  .top { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .brand { font-weight:900; letter-spacing:.06em; font-size:18px; color:var(--a1); text-shadow:0 0 16px var(--a1); }
+  .sw { border:1px solid var(--line); background:var(--glass); color:var(--text); border-radius:99px; padding:7px 12px; font-size:12.5px; font-weight:700; }
+  .banner { height:150px; margin:0 -18px; background-size:cover; background-position:center; -webkit-mask-image:linear-gradient(#000 55%,transparent); mask-image:linear-gradient(#000 55%,transparent); }
+  .hero { text-align:center; margin-top:-64px; }
+  .ring { width:124px; height:124px; border-radius:50%; padding:3px; margin:0 auto; box-shadow:0 0 22px var(--a1),0 0 46px var(--a3); position:relative; }
+  .ring::after { content:""; position:absolute; inset:-10px; border-radius:50%; border:2px solid var(--a1); opacity:0; animation:pulse 2.6s ease-out infinite; }
+  @keyframes pulse { 0% { transform:scale(.9); opacity:.7; } 100% { transform:scale(1.35); opacity:0; } }
+  .ring img, .ring .init { width:100%; height:100%; border-radius:50%; border:3px solid var(--bg); object-fit:cover; display:grid; place-items:center; background:var(--glass); font-size:44px; font-weight:900; }
+  h1 { font-size:28px; line-height:1.1; margin:14px 0 2px; font-weight:900; font-style:italic; }
+  [data-theme="girly"] h1 { font-style:normal; }
+  .handle { color:var(--muted); font-size:14px; }
+  .bio { margin:10px auto 0; max-width:36ch; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-top:10px; }
+  .chip { padding:5px 11px; border-radius:99px; font-size:12.5px; font-weight:700; border:1px solid var(--line); background:var(--glass); }
+  .amts { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin:22px 0 12px; }
+  .amt { height:50px; border-radius:16px; border:1px solid var(--line); background:var(--glass); color:var(--text); font-weight:800; font-size:15px; transition:transform .15s; }
+  .amt:active { transform:scale(.92); }
+  .amt.on { border-color:transparent; color:#fff; box-shadow:0 0 18px var(--a1); background:linear-gradient(118deg,var(--a2),var(--a1) 48%,var(--a3)); }
+  #custom { display:none; width:100%; height:52px; border-radius:16px; border:1.5px solid var(--a1); background:var(--glass); color:var(--text); font-size:20px; font-weight:800; padding:0 16px; margin-bottom:12px; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:54px; border-radius:99px; border:1px solid var(--line); background:var(--glass); color:var(--text); font-weight:800; font-size:15.5px; text-decoration:none; margin-bottom:10px; padding:0 18px; transition:transform .15s; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+  .btn:active { transform:scale(.97); }
+  .btn.primary { border-color:transparent; color:#fff; box-shadow:0 0 18px var(--a1),0 0 40px var(--a3); background:linear-gradient(118deg,var(--a2),var(--a1) 48%,var(--a3)); }
+  .card { border:1px solid var(--line); background:var(--glass); border-radius:20px; padding:16px; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); box-shadow:0 10px 30px var(--shadow); }
+  .muted { color:var(--muted); font-size:13px; }
+  .socials { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:14px 0; }
+  .soc { width:auto; min-height:44px; padding:0 16px; margin:0; font-size:13.5px; }
+  h2 { font-size:16px; margin:24px 0 10px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+  .grid img, .grid video { width:100%; aspect-ratio:1; object-fit:cover; border-radius:10px; background:var(--glass); }
+  footer { text-align:center; margin-top:28px; }
+  #rain { position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden; }
+  .bill { position:absolute; top:-40px; width:46px; height:24px; border-radius:5px; background:linear-gradient(90deg,#39d98a,#15915a); color:#fff; font-weight:900; font-size:14px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.5); animation:fall linear forwards; }
+  @keyframes fall { to { transform:translateY(115vh) rotate(540deg); } }
+  #thanks { position:fixed; inset:0; z-index:6; display:none; place-items:center; background:rgba(0,0,0,.6); padding:24px; }
+  #thanks .card { max-width:360px; text-align:center; padding:26px; }
+  #thanks h3 { font-size:24px; margin:14px 0 8px; font-weight:900; -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .heart { width:76px; height:76px; border-radius:50%; margin:0 auto; display:grid; place-items:center; font-size:36px; color:#fff; box-shadow:0 0 24px var(--a1); }
+  .state { text-align:center; padding:80px 10px; }
+  @media (prefers-reduced-motion: reduce) { .ring::after, .bill { animation:none; } }
 </style>
 </head>
 <body>
-  <div class="card" id="card">
-    <p class="state-message">Loading...</p>
-  </div>
-
+<div id="rain" aria-hidden="true"></div>
+<main>
+  <div class="top"><div class="brand">NIPTIPS</div><button class="sw" id="sw" aria-label="Switch theme">Girly</button></div>
+  <div id="app"><div class="state muted">Loading…</div></div>
+  <footer class="muted">Tips go straight to her. NipTips takes no cut.</footer>
+</main>
+<div id="thanks" role="dialog" aria-modal="true"><div class="card">
+  <div class="heart grad">♥</div>
+  <h3 class="grad">You just made her night</h3>
+  <p id="thanksText" style="margin:0 0 18px"></p>
+  <button class="btn primary" id="thanksClose" style="margin:0">Done</button>
+</div></div>
 <script>
+(function () {
   const SUPABASE_URL = 'https://jtqlkpiggmzvpcyjjhwd.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_klTPF2ZiLYzHqOsehCIQlA__wMG_176';
-  const cardEl = document.getElementById('card');
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : null);
 
-  const TIP_MILESTONES = [
-    { threshold: 10, emoji: '🙂', label: 'Rising Star' },
-    { threshold: 25, emoji: '💫', label: 'Fan Favorite' },
-    { threshold: 50, emoji: '🎉', label: 'Crowd Pleaser' },
-    { threshold: 100, emoji: '🔥', label: 'Century Tipper' },
-    { threshold: 250, emoji: '🌟', label: 'Superstar' },
-    { threshold: 500, emoji: '✨', label: 'Tip Legend' },
-  ];
+  // Theme: remembers her choice on this phone.
+  const root = document.documentElement, sw = $('sw');
+  const setTheme = (t) => { root.dataset.theme = t; sw.textContent = t === 'girly' ? 'Baddie' : 'Girly'; document.querySelector('meta[name=theme-color]').content = t === 'girly' ? '#fdeef4' : '#070509'; try { localStorage.setItem('niptip_theme', t); } catch (e) {} };
+  try { if (localStorage.getItem('niptip_theme') === 'girly') setTheme('girly'); } catch (e) {}
+  sw.onclick = () => setTheme(root.dataset.theme === 'girly' ? 'baddie' : 'girly');
 
-  const REFERRAL_TIERS = [
-    { threshold: 5, emoji: '🥇', label: 'Badge One' },
-    { threshold: 15, emoji: '🥈', label: 'Badge Two' },
-    { threshold: 30, emoji: '🥉', label: 'Badge Three' },
-    { threshold: 50, emoji: '👑', label: 'Ambassador' },
-  ];
-
-  // Only earned badges — filtered before rendering, never shows locked ones.
-  function earnedBadgesHtml(tiers, count) {
-    const earned = tiers.filter(t => count >= t.threshold);
-    if (earned.length === 0) return '';
-    return earned.map(t =>
-      `<div class="badge-chip"><span class="emoji">${t.emoji}</span>${t.label}</div>`
-    ).join('');
+  const PAY = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal', wise: 'Wise' };
+  const SOCIAL = { instagram: 'Instagram', tiktok: 'TikTok', snapchat: 'Snapchat', x: 'X', youtube: 'YouTube' };
+  const PREFIX = { cashApp: 'https://cash.app/$', venmo: 'https://venmo.com/', paypal: 'https://paypal.me/', wise: 'https://wise.com/pay/me/', instagram: 'https://instagram.com/', tiktok: 'https://tiktok.com/@', snapchat: 'https://snapchat.com/add/', x: 'https://x.com/', youtube: 'https://youtube.com/@' };
+  function linkUrl(l) {
+    if (safeUrl(l.url)) return l.url;
+    const v = String(l.value || '').trim();
+    if (!v) return null;
+    if (safeUrl(v)) return v;
+    return PREFIX[l.type] ? PREFIX[l.type] + encodeURIComponent(v.replace(/^[@$]/, '')) : safeUrl('https://' + v);
+  }
+  function payUrl(l, amount) {
+    const u = (linkUrl(l) || '').replace(/\/+$/, '');
+    if (l.type === 'cashApp' || l.type === 'paypal') return u + '/' + amount;
+    if (l.type === 'venmo') return u + '?txn=pay&amount=' + amount;
+    return u;
   }
 
-  function linkTypeLabel(type) {
-    const map = { cashApp: 'Cash App', venmo: 'Venmo', paypal: 'PayPal', wise: 'Wise' };
-    return map[type];
+  let amount = 10, pending = null;
+
+  function render(p, posts) {
+    const name = p.display_name || p.username;
+    const links = (Array.isArray(p.payment_links) ? p.payment_links : []).filter((l) => l && !l.hidden);
+    const pay = links.filter((l) => PAY[l.type]);
+    const social = links.filter((l) => SOCIAL[l.type]);
+    const web = links.filter((l) => !PAY[l.type] && !SOCIAL[l.type] && linkUrl(l));
+    const talents = Array.isArray(p.talents) ? p.talents.slice(0, 5) : [];
+    document.title = name + ' · NipTips';
+    const photo = safeUrl(p.photo_url), banner = safeUrl(p.banner_url);
+    let h = '';
+    h += '<div class="banner' + (banner ? '' : ' grad') + '"' + (banner ? ' style="background-image:url(\'' + esc(banner) + '\')"' : '') + '></div>';
+    h += '<div class="hero"><div class="ring grad">' + (photo ? '<img src="' + esc(photo) + '" alt="">' : '<div class="init">' + esc(p.username.charAt(0).toUpperCase()) + '</div>') + '</div>';
+    h += '<h1>' + esc(name) + '</h1><div class="handle">@' + esc(p.username) + '</div>';
+    if (p.bio) h += '<p class="bio">' + esc(p.bio) + '</p>';
+    if (talents.length) h += '<div class="chips">' + talents.map((t) => '<span class="chip">' + esc(t) + '</span>').join('') + '</div>';
+    h += '</div>';
+    if (pay.length) {
+      h += '<div class="amts">' + [5, 10, 20, 50].map((a) => '<button class="amt' + (a === amount ? ' on' : '') + '" data-a="' + a + '">$' + a + '</button>').join('') + '<button class="amt" data-a="other">Other</button></div>';
+      h += '<input id="custom" type="number" inputmode="numeric" min="1" max="9999" placeholder="Your amount" aria-label="Your amount">';
+      h += pay.map((l, i) => '<button class="btn pay' + (i === 0 ? ' primary' : '') + '" data-i="' + i + '">Tip <span class="amtLabel">$' + amount + '</span> with ' + esc(l.label || PAY[l.type]) + '</button>').join('');
+      h += '<button class="btn" id="rainBtn">Make It Rain</button>';
+    } else {
+      h += '<div class="card muted" style="margin-top:22px;text-align:center">She hasn\'t added a way to tip yet.</div>';
+    }
+    if (social.length) h += '<div class="socials">' + social.map((l) => '<a class="btn soc" rel="noopener" target="_blank" href="' + esc(linkUrl(l)) + '">' + esc(SOCIAL[l.type]) + '</a>').join('') + '</div>';
+    h += web.map((l) => '<a class="btn" rel="noopener" target="_blank" href="' + esc(linkUrl(l)) + '">' + esc(l.label || 'Link') + '</a>').join('');
+    const media = posts.flatMap((x) => (x.image_urls || []).slice(0, 1)).filter(safeUrl).slice(0, 9);
+    if (media.length) h += '<h2>Posts</h2><div class="grid">' + media.map((u) => (/\.(mp4|mov|webm)(\?|$)/i.test(u) ? '<video src="' + esc(u) + '" muted loop playsinline autoplay></video>' : '<img loading="lazy" src="' + esc(u) + '" alt="">')).join('') + '</div>';
+    $('app').innerHTML = h;
+
+    const setAmount = (a) => { amount = a; document.querySelectorAll('.amtLabel').forEach((e) => { e.textContent = '$' + a; }); };
+    document.querySelectorAll('.amt').forEach((b) => { b.onclick = () => {
+      document.querySelectorAll('.amt').forEach((x) => x.classList.remove('on'));
+      b.classList.add('on');
+      const c = $('custom');
+      if (b.dataset.a === 'other') { c.style.display = 'block'; c.focus(); } else { c.style.display = 'none'; setAmount(+b.dataset.a); }
+      if (navigator.vibrate) navigator.vibrate(12);
+    }; });
+    const c = $('custom');
+    if (c) c.oninput = () => setAmount(Math.max(1, Math.min(9999, parseInt(c.value, 10) || 1)));
+    document.querySelectorAll('.pay').forEach((b) => { b.onclick = () => {
+      const l = pay[+b.dataset.i];
+      pending = { amount: amount, app: l.label || PAY[l.type], name: p.username };
+      if (navigator.vibrate) navigator.vibrate(30);
+      window.location.href = payUrl(l, amount);
+    }; });
+    const rb = $('rainBtn');
+    if (rb) rb.onclick = rain;
   }
 
-  // For custom links, shows the actual site name (e.g. "niptip.store" or
-  // "onlyfans.com") pulled from the real URL, instead of a generic
-  // "Website" label.
-  function websiteName(href) {
-    try {
-      const hostname = new URL(href).hostname.replace(/^www\./, '');
-      return hostname;
-    } catch (_) {
-      return 'Website';
+  function rain() {
+    if (navigator.vibrate) navigator.vibrate([60, 50, 40, 40, 90]);
+    const box = $('rain');
+    for (let i = 0; i < 44; i++) {
+      const b = document.createElement('div');
+      b.className = 'bill'; b.textContent = '$';
+      b.style.left = Math.random() * 100 + 'vw';
+      b.style.animationDuration = 1.8 + Math.random() * 1.8 + 's';
+      b.style.animationDelay = Math.random() * 0.9 + 's';
+      box.appendChild(b);
+      setTimeout(() => b.remove(), 4800);
     }
   }
 
-  // Prefers the stored full 'url' (new entries); falls back to
-  // constructing one from type + value for older entries.
-  function linkHref(link) {
-    if (link.url) return link.url;
+  // Back from the payment app: say thank you.
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState !== 'visible' || !pending) return;
+    $('thanksText').textContent = 'Finish the $' + pending.amount + ' tip to @' + pending.name + ' in ' + pending.app + " if you haven't yet. It goes straight to her.";
+    $('thanks').style.display = 'grid';
+    pending = null;
+    rain();
+  });
+  $('thanksClose').onclick = () => { $('thanks').style.display = 'none'; };
 
-    const value = (link.value || '').trim();
-    if (!value) return null;
-    if (/^https?:\/\//i.test(value)) return value;
-
-    switch (link.type) {
-      case 'cashApp':
-        return `https://cash.app/${value.replace(/^\$/, '')}`;
-      case 'venmo':
-        return `https://venmo.com/${value.replace(/^@/, '')}`;
-      case 'paypal':
-        return `https://paypal.me/${value.replace(/^@/, '')}`;
-      case 'wise':
-        return `https://wise.com/pay/me/${value.replace(/^@/, '')}`;
-      default:
-        // Custom links (e.g. "niptip.store") — treat as a bare domain.
-        return `https://${value}`;
-    }
-  }
-
-  // Strips known domain prefixes so the display always shows just the
-  // handle, even for older rows where 'value' was saved as a full URL.
-  function displayValue(link) {
-    const raw = (link.value || '').trim();
-    const patterns = {
-      cashApp: /^https?:\/\/(www\.)?cash\.app\//i,
-      venmo: /^https?:\/\/(www\.)?venmo\.com\//i,
-      paypal: /^https?:\/\/(www\.)?paypal\.me\//i,
-      wise: /^https?:\/\/(www\.)?wise\.com\/pay\/me\//i,
-    };
-    const pattern = patterns[link.type];
-    if (pattern && pattern.test(raw)) {
-      return raw.replace(pattern, '').replace(/\/$/, '');
-    }
-    return raw;
-  }
-
-  function linksHtml(links) {
-    if (!Array.isArray(links) || links.length === 0) {
-      return '<p class="state-message">No payment links yet.</p>';
-    }
-    return links.map(l => {
-      const href = linkHref(l);
-      const tag = href ? 'a' : 'div';
-      const hrefAttr = href ? `href="${href}" target="_blank" rel="noopener"` : '';
-      return `
-        <${tag} class="link-item" ${hrefAttr}>
-          <span class="label">${l.label || linkTypeLabel(l.type) || websiteName(href)}</span>
-          ${href ? '<span class="arrow">↗</span>' : ''}
-        </${tag}>
-      `;
-    }).join('');
-  }
-
-  function postGridHtml(posts) {
-    if (posts.length === 0) return '';
-    return posts.map(p => {
-      const thumb = (p.image_urls && p.image_urls[0]) || '';
-      return `<div class="grid-item"><img src="${thumb}" loading="lazy" /></div>`;
-    }).join('');
-  }
-
-  function renderProfile(profile, stats, posts) {
-    const tipCount = stats?.tip_count || 0;
-    const referralCount = stats?.referral_count || 0;
-
-    const tipBadges = earnedBadgesHtml(TIP_MILESTONES, tipCount);
-    const referralBadges = earnedBadgesHtml(REFERRAL_TIERS, referralCount);
-
-    const publicPosts = posts.filter(p => p.feed_type === 'public');
-    const afterHoursPosts = posts.filter(p => p.feed_type === 'after_hours');
-
-    cardEl.innerHTML = `
-      <div class="avatar-wrap">
-        ${profile.photo_url
-          ? `<img class="avatar" src="${profile.photo_url}" alt="${profile.username}" />`
-          : `<div class="avatar"></div>`}
-      </div>
-      <h1 class="username">@${profile.username}</h1>
-      <p class="bio">${profile.display_name || ''}</p>
-
-      <div class="section-label">PAYMENT LINKS</div>
-      ${linksHtml(profile.payment_links)}
-
-      ${tipBadges ? `
-        <div class="section-label">TIP MILESTONES</div>
-        <div class="badge-row">${tipBadges}</div>
-      ` : ''}
-
-      ${referralBadges ? `
-        <div class="section-label">REFERRAL TIERS</div>
-        <div class="badge-row">${referralBadges}</div>
-      ` : ''}
-
-      <div class="referral-card">
-        <div class="referral-count">${referralCount}</div>
-        <div class="referral-label">REFERRALS</div>
-      </div>
-
-      ${publicPosts.length > 0 ? `
-        <div class="section-label">PUBLIC</div>
-        <div class="post-grid">${postGridHtml(publicPosts)}</div>
-      ` : ''}
-
-      ${afterHoursPosts.length > 0 ? `
-        <div class="section-label">AFTER HOURS</div>
-        <div id="after-hours-wrap">
-          <div id="after-hours-gate">
-            <div class="gate-badge">18+</div>
-            <p class="gate-text">This creator has adult content. Confirm your age to view.</p>
-            <button class="gate-btn" onclick="document.getElementById('after-hours-gate').remove(); document.getElementById('after-hours-grid').style.display='grid';">I'm 18 or older</button>
-          </div>
-          <div id="after-hours-grid" class="post-grid" style="display:none;">${postGridHtml(afterHoursPosts)}</div>
-        </div>
-      ` : ''}
-
-      <div class="footer">POWERED BY NIPTIP</div>
-    `;
-  }
-
-  function renderNotFound() {
-    cardEl.innerHTML = '<p class="state-message">Profile not found.</p>';
-  }
-
-  function renderNoUsername() {
-    cardEl.innerHTML = '<p class="state-message">No username provided.</p>';
-  }
+  const state = (t) => { $('app').innerHTML = '<div class="state"><h1>' + esc(t) + '</h1><p class="muted">Check the link and try again.</p></div>'; };
 
   async function main() {
-    if (typeof supabase === 'undefined') {
-      cardEl.innerHTML = '<p class="state-message">Could not load. Please refresh.</p>';
-      return;
-    }
-
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get('u')?.trim();
-
-    if (!username) {
-      renderNoUsername();
-      return;
-    }
-
+    const username = (new URLSearchParams(window.location.search).get('u') || '').trim().replace(/^@/, '');
+    if (!username) return state('NipTips');
+    if (!/^[A-Za-z0-9._]{1,30}$/.test(username)) return state('Profile not found');
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     try {
-      const { data: profile, error } = await supabaseClient
-        .from('profiles')
-        .select('id, username, display_name, photo_url, payment_links')
-        .ilike('username', username)
-        .maybeSingle();
-
-      if (error || !profile) {
-        renderNotFound();
-        return;
+      // Exact match first, then ignore capitals. "_" is escaped so it is not treated as a wildcard.
+      let r = await db.from('profiles').select('*').eq('username', username).limit(1);
+      let p = r.data && r.data[0];
+      if (!p) {
+        r = await db.from('profiles').select('*').ilike('username', username.replace(/_/g, '\\_')).limit(2);
+        p = r.data && r.data.length === 1 ? r.data[0] : null;
       }
-
-      const { data: stats } = await supabaseClient
-        .from('leaderboard_totals')
-        .select('tip_count, referral_count')
-        .ilike('username', username)
-        .maybeSingle();
-
-      const { data: posts } = await supabaseClient
-        .from('center_stage_posts')
-        .select('image_urls, feed_type, created_at')
-        .eq('user_id', profile.id)
-        .order('created_at', { ascending: false });
-
-      renderProfile(profile, stats, posts || []);
-
-      try {
-        await supabaseClient.rpc('increment_profile_taps', { profile_username: profile.username });
-      } catch (tapError) {
-        console.warn('Tap counter failed (non-critical):', tapError);
-      }
+      if (!p) return state('Profile not found');
+      const posts = await db.from('center_stage_posts').select('image_urls, created_at').eq('user_id', p.id).eq('feed_type', 'public').order('created_at', { ascending: false }).limit(12);
+      render(p, posts.data || []);
+      db.rpc('increment_profile_taps', { profile_username: p.username }).then(() => {}, () => {});
     } catch (e) {
-      console.error('NipTip profile error:', e);
-      cardEl.innerHTML = '<p class="state-message">Something went wrong. Please refresh.</p>';
+      $('app').innerHTML = '<div class="state"><h1>Something went wrong</h1><p class="muted">Please refresh.</p></div>';
     }
   }
-
   main();
+})();
 </script>
 </body>
 </html>
