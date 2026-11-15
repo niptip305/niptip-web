@@ -105,7 +105,12 @@
 
   function render(p, posts) {
     const name = p.display_name || p.username;
-    const links = (Array.isArray(p.payment_links) ? p.payment_links : []).filter((l) => l && !l.hidden);
+    const guess = (u) => (/cash\.app\//i.test(u) ? 'cashApp' : /venmo\.com\//i.test(u) ? 'venmo' : /paypal\.(me|com)\//i.test(u) ? 'paypal' : /wise\.com\//i.test(u) ? 'wise' : null);
+    const links = (Array.isArray(p.payment_links) ? p.payment_links : []).filter((l) => l && !l.hidden).map((l) => {
+      // Older profiles saved payment links as plain links. Recognize them by where they point.
+      const g = PAY[l.type] || SOCIAL[l.type] ? null : guess(linkUrl(l) || '');
+      return g ? Object.assign({}, l, { type: g, label: l.label && l.label !== 'Link' ? l.label : PAY[g] }) : l;
+    });
     const pay = links.filter((l) => PAY[l.type]);
     const social = links.filter((l) => SOCIAL[l.type]);
     const web = links.filter((l) => !PAY[l.type] && !SOCIAL[l.type] && linkUrl(l));
